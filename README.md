@@ -29,8 +29,8 @@ For this to work. the same domain should be used for both the Jellyfin and Jelly
 The subdomain can be changed to unique (stream and requests, etc) ones.
 
 Commong settings for the proxies should be:
-General: WebSockets ON ✅
-SLS/TLS: Enable HSTS and security headers: OFF ❌
+ - General: WebSockets ON ✅
+ - SLS/TLS: Enable HSTS and security headers: OFF ❌
 
 Jellyseer proxy settings: 
 Advanced, Custom settings:
