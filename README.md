@@ -61,9 +61,9 @@ proxy_set_header Connection "upgrade";
 
 # --- Allow Jellyfin to embed Jellyseerr ---
 proxy_hide_header X-Frame-Options;
-add_header X-Frame-Options "ALLOW-FROM https://stream.felhohub.xyz" always;
+add_header X-Frame-Options "ALLOW-FROM https://jellyfin.domain.com" always;
 
-add_header Content-Security-Policy "frame-ancestors 'self' https://stream.domain.com" always;
+add_header Content-Security-Policy "frame-ancestors 'self' https://jellyfin.domain.com" always;
 
 ```
 
