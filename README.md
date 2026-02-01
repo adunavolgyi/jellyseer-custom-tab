@@ -46,22 +46,43 @@ The subdomain can be changed to unique ones (stream, requests, etc.).
 **Advanced → Custom settings:**
 
 ```nginx
-proxy_set_header X-Forwarded-Proto $forward_scheme;
+# --- Required proxy headers ---
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Forwarded-Port 443;
+proxy_set_header X-Forwarded-For $remote_addr;
 proxy_set_header X-Forwarded-Ssl on;
-proxy_set_header Host $server;
-add_header Content-Security-Policy "upgrade-insecure-requests" always;
-add_header Content-Security-Policy "block-all-mixed-content" always;
+
+# --- WebSocket support (important for Jellyseerr) ---
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection "upgrade";
+
+# --- Allow Jellyfin to embed Jellyseerr ---
+proxy_hide_header X-Frame-Options;
+add_header X-Frame-Options "ALLOW-FROM https://stream.felhohub.xyz" always;
+
+add_header Content-Security-Policy "frame-ancestors 'self' https://stream.felhohub.xyz" always;
+
 ```
 
 ### Jellyfin Proxy Settings
 
 **Advanced → Custom settings:**
 ```nginx
+# --- Required proxy headers ---
 proxy_set_header Host $host;
 proxy_set_header X-Forwarded-Host $host;
-proxy_set_header X-Forwarded-Proto $forward_scheme;
+proxy_set_header X-Forwarded-Proto $scheme;
 proxy_set_header X-Forwarded-Port 443;
+proxy_set_header X-Forwarded-For $remote_addr;
 proxy_set_header X-Forwarded-Ssl on;
+
+# --- Jellyfin absolutely needs WebSockets ---
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection "upgrade";
 ```
 
 ### Jellyfin Custom Tab HTML
